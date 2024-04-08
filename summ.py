@@ -1,14 +1,3 @@
-# from transformers import BartTokenizer, BartForConditionalGeneration, Trainer, TrainingArguments
-
-# metric_rouge = load_metric("rouge")
-# metric_bleu = load_metric("sacrebleu")
-# metric_bert = load_metric("bertscore")
-# metric_meteor = load_metric("meteor")
-
-# def compute_metrics(eval_pred):
-#     predictions, labels = eval_pred
-#     predictions
-
 from datasets import Dataset, load_metric
 import json, io
 from transformers import (
@@ -22,7 +11,7 @@ from transformers import (
 import evaluate
 import numpy as np
 
-with io.open(fr'C:\Users\MRZholus\Desktop\python_test\marked_dataset_f.json', 'r', encoding='utf-8') as file:
+with io.open(fr'marked_dataset_f.json', 'r', encoding='utf-8') as file:
     full_data = json.load(file)
     data = [{"text": item["text"], "summary": item["summary"]} for item in full_data]
     dataset = Dataset.from_list(data)
@@ -70,7 +59,7 @@ def compute_metrics(eval_pred):
 model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
 
 training_args = Seq2SeqTrainingArguments(
-    output_dir="my_awesome_summ_model",
+    output_dir="summ_model",
     evaluation_strategy="epoch",
     learning_rate=2e-5,
     per_device_train_batch_size=16,
