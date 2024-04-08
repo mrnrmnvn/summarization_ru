@@ -12,14 +12,14 @@ tokenizer = T5Tokenizer.from_pretrained(raw_model)
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-5)
 
 
-batch_size = 4
+batch_size = 16
 report_steps = 50
 epochs = 7
 
 model.train()
 losses = []
 
-with io.open(fr'C:\Users\MRZholus\Desktop\python_test\marked_dataset_f.json', 'r', encoding='utf-8') as file:
+with io.open(fr'marked_dataset_f.json', 'r', encoding='utf-8') as file:
     full_data = json.load(file)
     # data = [{"text": item["text"], "summary": item["summary"]} for item in full_data]
     pairs = [[item["text"], item["summary"]] for item in full_data]
