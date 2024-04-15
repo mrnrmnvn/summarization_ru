@@ -6,8 +6,7 @@ from transformers import (
     AutoModelForSeq2SeqLM, 
     Seq2SeqTrainingArguments, 
     Seq2SeqTrainer,
-    T5ForConditionalGeneration,
-    T5Tokenizer)
+    )
 import evaluate
 import numpy as np
 
@@ -35,7 +34,6 @@ data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=checkpoint)
 rouge = evaluate.load("rouge")
 bertscore = evaluate.load("bertscore")
 bleu = evaluate.load("sacrebleu")
-# meteor = evaluate.load("meteor")
 
 def compute_metrics(eval_pred):
     predictions, labels = eval_pred
@@ -45,11 +43,8 @@ def compute_metrics(eval_pred):
     
     res_rouge = rouge.compute(predictions=decoded_preds, references=decoded_labels)
     res_bleu = bleu.compute(predictions=decoded_preds, references=decoded_labels)
-    res_bert = bertscore.compute(predictions=decoded_preds, references=decoded_labels)
+    res_bert = bertscore.compute(predictions=decoded_preds, references=decoded_labels, lang='ru')
     
-    # prediction_lens = [np.count_nonzero(pred != tokenizer.pad_token_id) for pred in predictions]
-    # res_rouge["gen_len"] = np.mean(prediction_lens)
-    # return {k: round(v, 4) for k, v in res_rouge.items()}
     return {
         "rouge": res_rouge,
         "bleu": res_bleu,
